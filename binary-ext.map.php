@@ -2,5 +2,5 @@
 
 return [
     'php' => ['.php'],
-    'node' => ['.js'],
+    'node' => ['.js', '.mjs'],
 ];

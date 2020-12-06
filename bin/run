@@ -20,7 +20,7 @@ foreach (glob($workingDir . '/code.*') as $codeFile) {
     write('Executing: ' . basename($codeFile));
     newLine(2);
     write(
-        shell_exec(
+        (string) shell_exec(
             sprintf('%s %s', $binary, $codeFile)
         )
     );

@@ -88,9 +88,14 @@ function getBinaryPathByFilename(string $fileName): string
     $extension = '.' . pathinfo($fileName, PATHINFO_EXTENSION);
     $binaryPath = null;
 
-    foreach ($binaryExtMap as $binary => $extensionList) {
+    foreach ($binaryExtMap as $binary => $values) {
+        $extensionList = $values['extensions'] ?? $values;
         if (in_array($extension, $extensionList, true)) {
             $binaryPath = locateBinaryPath($binary);
+
+            if (isset($values['options'])) {
+                $binaryPath .= ' ' . implode(' ', $values['options']);
+            }
         }
     }
 
@@ -124,7 +129,7 @@ function readInput(string $currentDir, string $delimiter = PHP_EOL): array
     return explode($delimiter, file_get_contents($currentDir . '/input.txt'));
 }
 
-function testResults(array $expects, array $result): void
+function testResults(array $expects, array $results): void
 {
     if (empty($expects)) {
         writeln('Skipped test!');
@@ -135,7 +140,7 @@ function testResults(array $expects, array $result): void
     foreach ($expects as $key => $value) {
         $index = $key + 1;
 
-        if ($value === $result[$key]) {
+        if ($value === $results[$key]) {
             writeln(
                 sprintf("\033[32mPart %d: passed\033[37m", $index)
             );
@@ -157,19 +162,19 @@ function calcExecutionTime(): ?string
         return null;
     }
 
-    $result = ((microtime(true) - $startTime) / 1.0e6);
+    $result = (microtime(true) - $startTime) / 1000;
     $startTime = null;
 
-    return $result . ' s';
+    return number_format($result, 4) . 'ms';
 }
 
 function saveBenchmarkTime(string $executionTime, string $currentDir): void
 {
     $benchmarkFilePath = $currentDir . '/benchmark.json';
-    $benchMark = [];
+    $benchmark = [];
 
     if (file_exists($benchmarkFilePath)) {
-        $benchMark = json_decode(
+        $benchmark = json_decode(
             file_get_contents($benchmarkFilePath),
             true,
             512,
@@ -177,7 +182,7 @@ function saveBenchmarkTime(string $executionTime, string $currentDir): void
         );
     }
 
-    $benchMark['PHP'] = $executionTime;
+    $benchmark['PHP'] = $executionTime;
 
-    file_put_contents($benchmarkFilePath, json_encode($benchMark, JSON_PRETTY_PRINT));
+    file_put_contents($benchmarkFilePath, json_encode($benchmark, JSON_PRETTY_PRINT));
 }

@@ -18,12 +18,13 @@ function part02(array $input)
 // Execute
 calcExecutionTime();
 $result01 = part01($input);
-writeln('Solution Part 1: ' . $result01);
 $result02 = part02($input);
-writeln('Solution Part 2: ' . $result02);
 $executionTime = calcExecutionTime();
 
-echo("Execution time: $executionTime" . PHP_EOL);
+writeln('Solution Part 1: ' . $result01);
+writeln('Solution Part 2: ' . $result02);
+writeln('Execution time: ' . $executionTime);
+
 saveBenchmarkTime($executionTime, __DIR__);
 
 // Task test
