@@ -67,9 +67,8 @@ foreach ($benchmarkList as $benchmark) {
     }
 
     $table .= sprintf(
-        '| [Day %s](%s/Day_%s/) | %s |',
+        '| [Day %s](Day_%s) | %s |',
         $benchmark['day'],
-        $year,
         $benchmark['day'],
         implode(' | ', $benchmarkColumnList)
     );
