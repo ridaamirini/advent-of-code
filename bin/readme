@@ -1,0 +1,91 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../lib/php/cli.php';
+require_once __DIR__ . '/../lib/php/utils.php';
+require_once __DIR__ . '/../lib/php/aoc-cli.php';
+
+$year = getYearOption();
+$workingDir = getWorkingPath($year);
+$template = <<<TEMPLATE
+# Advent of Code {YEAR}
+
+[Advent of Code {YEAR}](https://adventofcode.com/{YEAR})
+
+# Benchmarks
+
+{TABLE}
+TEMPLATE;
+
+writeln('Creating "README.md"...');
+
+$benchmarkList = [];
+for ($i = 1; $i <= 25; $i++) {
+    $dayPadded = getDayPadded($i);
+    $benchmarkFilePath = sprintf('%s/Day_%s/benchmark.json', $workingDir, $dayPadded);
+    $benchmark = [];
+
+    if (file_exists($benchmarkFilePath)) {
+        $benchmark = json_decode(file_get_contents($benchmarkFilePath), true);
+    }
+
+    $benchmarkList[] = [
+        'day' => $dayPadded,
+        'benchmark' => $benchmark
+    ];
+}
+
+$languages = array_values(
+    array_unique(
+        arrayFlatten(
+            array_map(
+                static fn ($values) => array_values(array_flip($values)),
+                array_column($benchmarkList, 'benchmark')
+            )
+        )
+    )
+);
+sort($languages, SORT_STRING);
+
+$table = '';
+$columnLength = count($languages) + 1;
+$table .= sprintf('| Day | %s |', implode(' | ', $languages));
+$table .= PHP_EOL;
+$table .= sprintf('|%s|', implode('|', array_fill(0, $columnLength, ':-------------:')));
+$table .= PHP_EOL;
+
+foreach ($benchmarkList as $benchmark) {
+    $benchmarkColumnList = [];
+    for ($i = 0, $iMax = count($languages); $i < $iMax; $i++) {
+        if (isset($benchmark['benchmark'][$languages[$i]])) {
+            $benchmarkColumnList[] = sprintf('`%s`', $benchmark['benchmark'][$languages[$i]]);
+
+            continue;
+        }
+
+        $benchmarkColumnList[] = ':x:';
+    }
+
+    $table .= sprintf(
+        '| [Day %s](%s/Day_%s/) | %s |',
+        $benchmark['day'],
+        $year,
+        $benchmark['day'],
+        implode(' | ', $benchmarkColumnList)
+    );
+    $table .= PHP_EOL;
+}
+
+$readMe = str_replace(
+    ['{YEAR}', '{TABLE}'],
+    [$year, $table],
+    $template
+);
+
+file_put_contents(sprintf('%s/README.md', $workingDir), $readMe);
+
+newLine();
+write(sprintf('Successfully created "%s/README.md"!', $year));
+newLine();
+
+exit(CLI_SUCCESS);

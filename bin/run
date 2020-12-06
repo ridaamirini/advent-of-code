@@ -1,0 +1,34 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../lib/php/cli.php';
+require_once __DIR__ . '/../lib/php/utils.php';
+require_once __DIR__ . '/../lib/php/aoc-cli.php';
+
+$year = getYearOption();
+$day = getDayOption();
+$workingDir = getWorkingPath($year, $day);
+
+writeln(
+    sprintf('Running - YEAR: %d, DAY: %d', $year, $day)
+);
+newLine();
+
+foreach (glob($workingDir . '/code.*') as $codeFile) {
+    $binary = getBinaryPathByFilename($codeFile);
+
+    write('Executing: ' . basename($codeFile));
+    newLine(2);
+    write(
+        shell_exec(
+            sprintf('%s %s', $binary, $codeFile)
+        )
+    );
+    newLine(2);
+}
+
+newLine();
+write('COMPLETED!');
+newLine();
+
+exit(CLI_SUCCESS);

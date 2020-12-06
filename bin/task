@@ -1,0 +1,58 @@
+#!/usr/bin/env php
+<?php
+
+require_once __DIR__ . '/../lib/php/cli.php';
+require_once __DIR__ . '/../lib/php/utils.php';
+require_once __DIR__ . '/../lib/php/aoc.php';
+require_once __DIR__ . '/../lib/php/aoc-cli.php';
+
+$year = getYearOption();
+$day = getDayOption();
+$workingDir = getWorkingPath($year, $day);
+
+writeln('Creating directory...');
+
+mkdirIfNotExists($workingDir);
+
+writeln('Copying templates...');
+
+foreach (glob(__DIR__ . '/../template/*.*') as $template) {
+    copyFileIfNotExists(
+            $template,
+            sprintf(
+                '%s/code.%s',
+                $workingDir,
+                pathinfo($template, PATHINFO_EXTENSION)
+            )
+    );
+}
+
+$descriptionPath = sprintf('%s/description.txt', $workingDir);
+if (!file_exists($descriptionPath)) {
+    writeln('Fetching description...');
+
+    file_put_contents(
+        $descriptionPath,
+        fetchTaskDescription($year, $day)
+    );
+} else {
+    writeln('Task description found!');
+}
+
+$inputPath = sprintf('%s/input.txt', $workingDir);
+if (!file_exists($inputPath)) {
+    writeln('Fetching input...');
+
+    file_put_contents(
+        $inputPath,
+        fetchTaskInput($year, $day)
+    );
+} else {
+    writeln('Task input found!');
+}
+
+newLine();
+write('DONE!');
+newLine();
+
+exit(CLI_SUCCESS);
