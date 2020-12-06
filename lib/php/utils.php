@@ -162,10 +162,10 @@ function calcExecutionTime(): ?string
         return null;
     }
 
-    $result = (microtime(true) - $startTime) / 1000;
+    $result = (microtime(true) - $startTime) * 1000;
     $startTime = null;
 
-    return number_format($result, 4) . 'ms';
+    return sprintf('%.4f', $result) . 'ms';
 }
 
 function saveBenchmarkTime(string $executionTime, string $currentDir): void

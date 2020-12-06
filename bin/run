@@ -7,6 +7,7 @@ require_once __DIR__ . '/../lib/php/aoc-cli.php';
 
 $year = getYearOption();
 $day = getDayOption();
+$exclude = explode(',', getOption('exclude') ?? '');
 $workingDir = getWorkingPath($year, $day);
 
 writeln(
@@ -15,6 +16,12 @@ writeln(
 newLine();
 
 foreach (glob($workingDir . '/code.*') as $codeFile) {
+    if (!empty($exclude) &&
+        in_array(pathinfo($codeFile, PATHINFO_EXTENSION), $exclude, true)
+    ) {
+        continue;
+    }
+
     $binary = getBinaryPathByFilename($codeFile);
 
     write('Executing: ' . basename($codeFile));
