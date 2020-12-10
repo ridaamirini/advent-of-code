@@ -1,4 +1,4 @@
-name: MasterCI
+name: Master CI
 on:
   push:
     branches:
@@ -20,10 +20,10 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git status
-          git add README.md
-          git commit -m "Updated README.md"
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+#          git add README.md
+#          git commit -m "Updated README.md"
+#      - name: Push changes
+#        uses: ad-m/github-push-action@master
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          branch: ${{ github.ref }}
