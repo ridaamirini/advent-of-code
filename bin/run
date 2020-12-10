@@ -4,6 +4,7 @@
 require_once __DIR__ . '/../lib/php/cli.php';
 require_once __DIR__ . '/../lib/php/utils.php';
 require_once __DIR__ . '/../lib/php/aoc-cli.php';
+require_once __DIR__ . '/../lib/php/runner.php';
 
 $year = getYearOption();
 $day = getDayOption();
@@ -22,16 +23,7 @@ foreach (glob($workingDir . '/code.*') as $codeFile) {
         continue;
     }
 
-    $binary = getBinaryPathByFilename($codeFile);
-
-    write('Executing: ' . basename($codeFile));
-    newLine(2);
-    write(
-        (string) shell_exec(
-            sprintf('%s %s', $binary, $codeFile)
-        )
-    );
-    newLine(2);
+    run($codeFile);
 }
 
 newLine();

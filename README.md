@@ -26,6 +26,7 @@ The folder for each day contains:
 - `bin/task --year 2020 --day 1` - will prepare everything for the given task.
 - `bin/run --year 2020 --day 1` - will execute all `code.*` files for the given task.
 - `bin/readme --year 2020` - will create a `README.md` for the given year.
+- `bin/test` - will test all `code.*` files. Beware this can overwrite your `benchmark.json`!!!
 
 ### Languages
 
@@ -34,4 +35,6 @@ You only need to add the binary for executing your script into `binary-ext.map.p
 
 Already added languages:
 - PHP
-- Javascript/Node 
+- Javascript/Node (in `template/.ignore/`)
+
+To enable ignored templates for `bin/task`, you need to moved them manually to `template/`.

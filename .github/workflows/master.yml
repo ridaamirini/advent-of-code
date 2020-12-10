@@ -9,8 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: Run tests
-        run: echo "Hello World!"
-  readme:
+        run: bin/test
+  update-readme:
     runs-on: ubuntu-latest
     needs: tests
     steps:

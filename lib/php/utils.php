@@ -139,8 +139,9 @@ function testResults(array $expects, array $results): void
 
     foreach ($expects as $key => $value) {
         $index = $key + 1;
+        $result = $results[$key];
 
-        if ($value === $results[$key]) {
+        if ($value === $result) {
             writeln(
                 sprintf("\033[32mPart %d: passed\033[37m", $index)
             );
@@ -148,7 +149,12 @@ function testResults(array $expects, array $results): void
         }
 
         writeln(
-            sprintf("\033[31mPart %d: failed\033[37m", $index)
+            sprintf(
+                "\033[31mPart %d: failed with Expected: '%s' but get '%s'. \033[37m",
+                $index,
+                $value,
+                $result
+            )
         );
     }
 }
