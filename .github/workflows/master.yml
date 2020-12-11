@@ -18,15 +18,13 @@ jobs:
         with:
           persist-credentials: false
           fetch-depth: 0
-      - name: Run tests
-        run: echo "Hello World!"
       - name: Update README.md
         run: bin/readme
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add README.md
+          git add $(date +'%Y')/README.md
           git commit -m "Updated README.md" || echo "No changes to commit"
       - name: Push changes
         uses: ad-m/github-push-action@master
