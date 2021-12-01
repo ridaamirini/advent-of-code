@@ -14,11 +14,12 @@ func main() {
 	cwd := path.Join(path.Dir(f))
 
 	input := helper.ReadInput(cwd, helper.NewLine)
+	iValues := input.Strings()
 
 	// Execute
 	start := time.Now()
-	result01 := part01(input)
-	result02 := part02(input)
+	result01 := part01(iValues)
+	result02 := part02(iValues)
 	executionTime := helper.ExecutionTime(time.Since(start))
 
 	fmt.Printf("Solution Part 1: %v\n", result01)

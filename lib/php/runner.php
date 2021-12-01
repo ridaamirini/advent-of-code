@@ -24,3 +24,23 @@ function run(string $codeFile): void
     );
     newLine(2);
 }
+
+function runWithExitCode(string $codeFile): int {
+    $binary = getBinaryPathByFilename($codeFile);
+
+    write(
+        sprintf(
+            'Executing: %s/%s/%s',
+            basename(dirname($codeFile, 2)),
+            basename(dirname($codeFile)),
+            basename($codeFile)
+        )
+    );
+    newLine(2);
+    $output = $exitCode = null;
+    exec(sprintf('%s %s', $binary, $codeFile), $output, $exitCode);
+    write(implode("\n", $output));
+    newLine(2);
+
+    return $exitCode;
+}

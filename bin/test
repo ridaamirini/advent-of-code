@@ -6,7 +6,11 @@ require_once __DIR__ . '/../lib/php/utils.php';
 require_once __DIR__ . '/../lib/php/runner.php';
 
 foreach (glob(__DIR__ . '/../**/**/code.*') as $codeFile) {
-    run($codeFile);
+    $code = runWithExitCode($codeFile);
+
+    if ($code !== CLI_SUCCESS) {
+        exit(CLI_FAILURE);
+    }
 }
 
 newLine();
