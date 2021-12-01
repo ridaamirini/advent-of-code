@@ -132,7 +132,7 @@ function readInput(string $currentDir, string $delimiter = PHP_EOL): array
 function testResults(array $expects, array $results): void
 {
     if (empty($expects)) {
-        writeln('Skipped test!');
+        writeln('Skipped tests!');
 
         return;
     }

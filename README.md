@@ -1,7 +1,7 @@
 # Advent of Code
 
 [2015](/2015/README.md) | [2016](/2016/README.md) | [2017](/2017/README.md) | 
-[2018](/2018/README.md) | [2019](/2020/README.md) | [2020](/2020/README.md)
+[2018](/2018/README.md) | [2019](/2020/README.md) | [2020](/2020/README.md) | [2021](/2021/README.md)
 
 This repository contains my solutions for [Advent of Code](https://adventofcode.com/).
 
@@ -36,5 +36,6 @@ You only need to add the binary for executing your script into `binary-ext.map.p
 Already added languages:
 - PHP
 - Javascript/Node (in `template/.ignore/`)
+- Golang (in `template/.ignore/`)
 
 To enable ignored templates for `bin/task`, you need to moved them manually to `template/`.
