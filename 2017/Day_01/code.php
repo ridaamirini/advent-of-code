@@ -7,28 +7,28 @@ $input = readInput(__DIR__)[0];
 // Task code
 function part01(string $input): int
 {
-    $digitList = [];
+    $sum = 0;
 
     for ($i = 0, $totalCount = strlen($input); $i < $totalCount; $i++) {
         if ($input[$i] === $input[$i - 1]) {
-            $digitList[] = $input[$i];
+            $sum += $input[$i];
         }
     }
 
-    return array_sum($digitList);
+    return $sum;
 }
 
 function part02(string $input): int
 {
-    $digitList = [];
+    $sum = 0;
 
     for ($i = 0, $totalCount = strlen($input); $i < $totalCount; $i++) {
         if ($input[$i] === $input[$i - ($totalCount/2)]) {
-            $digitList[] = $input[$i];
+            $sum += $input[$i];
         }
     }
 
-    return array_sum($digitList);
+    return $sum;
 }
 
 // Execute
@@ -45,6 +45,6 @@ saveBenchmarkTime($executionTime, __DIR__);
 
 // Task test
 testResults(
-    [], // Expected
+    [1223, 1284], // Expected
     [$result01, $result02], // Result
 );
