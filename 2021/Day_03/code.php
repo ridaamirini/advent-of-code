@@ -12,10 +12,10 @@ function part01(array $input): int
 
     for ($pos = 0, $byteLength = strlen($input[0]); $pos < $byteLength; $pos++) {
         $mostCommonIndex = commonBit($input, $pos);
-        $leasCommonIndex = $mostCommonIndex === 0 ? 1 : 0;
+        $leastCommonIndex = $mostCommonIndex === 0 ? 1 : 0;
 
         $gamma .= $mostCommonIndex;
-        $epsilon .= $leasCommonIndex;
+        $epsilon .= $leastCommonIndex;
     }
 
     return bindec($gamma) * bindec($epsilon);
