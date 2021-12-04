@@ -39,7 +39,7 @@ function createBagGraph(array $input): array
         $innerBagList = explode(', ', $innerBags);
         foreach ($innerBagList as $innerBag) {
             $matches = null;
-            $matched = preg_match('/(\d+) (.*) (bags|bag)/', $innerBag, $matches);
+            $matched = preg_match('/(\d+) (.*) (bags?)/', $innerBag, $matches);
 
             if (!$matched) {
                 continue;
