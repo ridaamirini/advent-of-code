@@ -80,7 +80,7 @@ func (b *Board) markNumber(number int) {
 	}
 }
 
-func (b *Board) winner() bool {
+func (b *Board) isWinner() bool {
 	rowLength := len(b.rows[0].cols)
 	colsLength := len(b.rows)
 
@@ -129,7 +129,7 @@ outer:
 		for _, board := range boards {
 			board.markNumber(n)
 
-			if board.winner() {
+			if board.isWinner() {
 				bingo = n
 				winningBoard = board
 				break outer
@@ -164,7 +164,7 @@ func part02(input []string) int {
 			if !exits {
 				board.markNumber(n)
 
-				if board.winner() {
+				if board.isWinner() {
 					winningBoards[k] = Winner{
 						board: *board,
 						place: len(winningBoards) + 1,
