@@ -19,12 +19,11 @@ jobs:
           persist-credentials: false
           fetch-depth: 0
       - name: Update README.md
-        run: for y in 2*; do echo "bin/readme --year $y"; done
+        run: for y in 2*; do echo "bin/readme --year $y"; done && git status
       - name: Commit files
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git status
           git add */README.md
           git commit -m "Update README.md" || echo "No changes to commit"
       - name: Push changes
