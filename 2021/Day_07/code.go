@@ -75,8 +75,8 @@ func part02(input []string) int {
 				continue
 			}
 
-			base := math.Abs(float64(i - c))
-			fuel += (int(math.Pow(base, 2)) + int(base)) / 2
+			base := int(math.Abs(float64(i - c)))
+			fuel += (base * (base + 1)) / 2
 		}
 
 		fuelList[i] = fuel
