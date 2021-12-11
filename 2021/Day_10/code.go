@@ -50,18 +50,11 @@ const (
 	CrocodileClosed     = ">"
 )
 
-var OpeningBrackets = map[string]interface{}{
-	BracketOpened:       nil,
-	SquareBracketOpened: nil,
-	BraceOpened:         nil,
-	CrocodileOpened:     nil,
-}
-
-var ClosingBrackets = map[string]interface{}{
-	BracketClosed:       nil,
-	SquareBracketClosed: nil,
-	BraceClosed:         nil,
-	CrocodileClosed:     nil,
+var Brackets = map[string]string{
+	BracketOpened:       BracketClosed,
+	SquareBracketOpened: SquareBracketClosed,
+	BraceOpened:         BraceClosed,
+	CrocodileOpened:     CrocodileClosed,
 }
 
 var SyntaxErrorScorePoints = map[string]int{
@@ -82,19 +75,16 @@ func part01(input []string) int {
 	var wrongBrackets []string
 
 	for _, line := range input {
-		var lifo []rune
+		var lifo []string
 
 		for _, s := range strings.Split(line, "") {
-			r := rune(s[0])
-
 			if isOpeningBracket(s) {
-				lifo = append(lifo, r)
+				lifo = append(lifo, s)
 
 				continue
 			}
 
-			lel := lifo[len(lifo)-1]
-			if isCorrectClosingBracket(lel, r) {
+			if c, _ := Brackets[lifo[len(lifo)-1]]; c == s {
 				lifo = lifo[:len(lifo)-1]
 
 				continue
@@ -106,7 +96,13 @@ func part01(input []string) int {
 		}
 	}
 
-	return calcSyntaxScore(wrongBrackets)
+	var res int
+	for _, s := range wrongBrackets {
+		points, _ := SyntaxErrorScorePoints[s]
+		res += points
+	}
+
+	return res
 }
 
 func part02(input []string) int {
@@ -115,19 +111,16 @@ func part02(input []string) int {
 outer:
 	for _, line := range input {
 		var score int
-		var lifo []rune
+		var lifo []string
 
 		for _, s := range strings.Split(line, "") {
-			r := rune(s[0])
-
 			if isOpeningBracket(s) {
-				lifo = append(lifo, r)
+				lifo = append(lifo, s)
 
 				continue
 			}
 
-			lel := lifo[len(lifo)-1]
-			if isCorrectClosingBracket(lel, r) {
+			if c, _ := Brackets[lifo[len(lifo)-1]]; c == s {
 				lifo = lifo[:len(lifo)-1]
 
 				continue
@@ -137,9 +130,11 @@ outer:
 		}
 
 		for len(lifo) > 0 {
-			c := determineClosingBracket(lifo[len(lifo)-1])
+			c := Brackets[lifo[len(lifo)-1]]
+
 			points, _ := AutocompleteScorePoints[c]
 			score = (score * 5) + points
+
 			lifo = lifo[:len(lifo)-1]
 		}
 
@@ -151,32 +146,7 @@ outer:
 	return missingBracketsScore[len(missingBracketsScore)/2]
 }
 
-func calcSyntaxScore(list []string) int {
-	var res int
-
-	for _, s := range list {
-		points, _ := SyntaxErrorScorePoints[s]
-		res += points
-	}
-
-	return res
-}
-
 func isOpeningBracket(c string) bool {
-	_, ok := OpeningBrackets[c]
+	_, ok := Brackets[c]
 	return ok
-}
-
-func isCorrectClosingBracket(o rune, c rune) bool {
-	return o+1 == c || o+2 == c
-}
-
-func determineClosingBracket(r rune) string {
-	b := r + 1
-
-	if _, isClosingBracket := ClosingBrackets[string(b)]; isClosingBracket {
-		return string(b)
-	}
-
-	return string(r + 2)
 }
