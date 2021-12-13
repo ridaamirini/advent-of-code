@@ -16,7 +16,7 @@
 | [Day 08](Day_08) | `3ms` | :x: |
 | [Day 09](Day_09) | `11ms` | :x: |
 | [Day 10](Day_10) | `1ms` | :x: |
-| [Day 11](Day_11) | :x: | :x: |
+| [Day 11](Day_11) | `8ms` | :x: |
 | [Day 12](Day_12) | :x: | :x: |
 | [Day 13](Day_13) | :x: | :x: |
 | [Day 14](Day_14) | :x: | :x: |
