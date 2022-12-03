@@ -59,16 +59,6 @@ func NewCalorieList(input []string) CalorieList {
 	return list
 }
 
-type Strategy struct {
-	rounds Rounds
-}
-
-type Rounds struct {
-	own string
-}
-
-type Choice int
-
 // Task code
 func part01(input []string) int {
 	l := NewCalorieList(input)
